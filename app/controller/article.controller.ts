@@ -15,8 +15,7 @@ export default class ArticleController {
    */
   public async articleCeatePost(ctx: Context) {
     const {uid = 0, title = '', content = ''} = ctx.request.body;
-    if (!uid || !title || !content)
-      throw new CustomError('缺少参数', {msg: 'title、uid或者content缺少'});
+    if (!uid || !title || !content) throw new CustomError('缺少参数', {msg: 'title、uid或者content缺少'});
 
     const result = await ArticleModel.create({
       uid,

@@ -53,5 +53,9 @@ export default class UserController {
     // if (_user !== null) {
     //   _user.destroy();
     // }
+
+    ctx.result['data'] = {
+      msg: `成功刪除${_destroy}筆!`
+    };
   }
 }

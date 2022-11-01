@@ -15,7 +15,7 @@
     "serve": "set NODE_ENV=dev && ts-node app.ts",
     "start": "set NODE_ENV=api && pm2 start dist/app.js --name myblog-ts",
     "watch-server": "set NODE_ENV=dev && nodemon --watch app.ts -e ts,tsx --exec ts-node app.ts",
-    "build": "rm -rf dist && tsc"
+    "build": "rimraf dist && tsc"
   },
   "devDependencies": {
     "@types/glob": "^7.1.3",

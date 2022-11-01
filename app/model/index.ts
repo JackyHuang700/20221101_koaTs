@@ -1,34 +1,33 @@
-'use strict';
+"use strict"
 // 文档 https://www.sequelize.com.cn/other-topics/typescript
 // sequelize v5 https://itbilu.com/nodejs/npm/sequelize-docs-v5.html
 
-import {Sequelize, DataTypes, SyncOptions} from 'sequelize';
-import glob from 'glob';
-import {resolve} from 'path';
-import _ from 'lodash';
-import ArticleModel from './article.model';
-import UserModel from './user.model';
+import { Sequelize, DataTypes, SyncOptions } from "sequelize"
+import glob from "glob"
+import { resolve } from "path"
+import _ from "lodash"
+import ArticleModel from "./article.model"
+import UserModel from "./user.model"
 
-import config from '../config';
+import config from "../config"
 
 // 创建数据库流
-const _sequelize: Sequelize = new Sequelize(
-  config.db_common.dbname,
-  config.db_common.username,
-  config.db_common.password,
-  {
-    host: config.db_common.host,
-    port: config.db_common.port,
-    dialect: config.db_common.dialect,
-    timezone: '+08:00',
-    pool: config.db_common.pool,
-    benchmark: config.db_common.benchmark,
-    ...(!config.db_common.logging && {logging: false}), // 正式服取消打印sql 提高执行效率
-    define: config.db_common.define, //全局的定义，会通过连接实例传递
-  }
-);
+const _sequelize: Sequelize = new Sequelize(config.db_common.dbname, config.db_common.username, config.db_common.password, {
+  host: config.db_common.host,
+  port: config.db_common.port,
+  dialect: config.db_common.dialect,
+  timezone: "+08:00",
+  pool: config.db_common.pool,
+  benchmark: config.db_common.benchmark,
+  ...(!config.db_common.logging && { logging: false }), // 正式服取消打印sql 提高执行效率
+  define: config.db_common.define, //全局的定义，会通过连接实例传递
+})
 
-const sequelize = new Sequelize('mysql://root:root@localhost:3306/blog_dev');
+let sequelize: Sequelize
+const _sqlCon = 1
+if(_sqlCon === 1) sequelize = new Sequelize("mysql://root:fFlsxFmxXzG0G66pN15A@containers-us-west-34.railway.app:7382/railway")
+else if(_sqlCon === 2) sequelize = new Sequelize("mysql://root:root@localhost:3306/blog_dev")
+
 
 // 模型加载
 // const db: any = {};
@@ -64,30 +63,30 @@ export const initDB = async () => {
       },
       name: {
         type: DataTypes.STRING,
-        comment: '真实名称',
+        comment: "真实名称",
         allowNull: true,
-        defaultValue: '',
+        defaultValue: "",
       },
       nickname: {
         type: DataTypes.STRING,
-        comment: '昵称',
+        comment: "昵称",
         allowNull: false,
-        defaultValue: '',
+        defaultValue: "",
       },
       pwd: {
         type: DataTypes.STRING,
-        comment: '密码',
+        comment: "密码",
         allowNull: false,
-        defaultValue: '',
+        defaultValue: "",
       },
     },
     {
-      tableName: 'user', // 定义表名
+      tableName: "user", // 定义表名
       sequelize,
-      modelName: 'user',
+      modelName: "user",
       paranoid: true, // 不实际删除数据库记录，而是设置一个新 deletedAt 属性，其值为当前日期 `paranoid` 仅在 `timestamps` 启用时可用
     }
-  );
+  )
 
   ArticleModel.init(
     {
@@ -99,81 +98,81 @@ export const initDB = async () => {
       uid: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        comment: '用户ID',
+        comment: "用户ID",
       },
       title: {
         type: DataTypes.STRING,
         allowNull: false,
-        comment: '文章标题',
-        defaultValue: '',
+        comment: "文章标题",
+        defaultValue: "",
       },
       content: {
         type: DataTypes.TEXT,
         allowNull: false,
-        comment: '文章内容',
-        defaultValue: '',
+        comment: "文章内容",
+        defaultValue: "",
       },
     },
     {
-      tableName: 'article', // 定义表名
+      tableName: "article", // 定义表名
       sequelize,
-      modelName: 'article',
+      modelName: "article",
       paranoid: true, // 不实际删除数据库记录，而是设置一个新 deletedAt 属性，其值为当前日期 `paranoid` 仅在 `timestamps` 启用时可用
     }
-  );
+  )
 
   // 設定 關聯
   UserModel.hasMany(ArticleModel, {
-    foreignKey: 'uid',
-    sourceKey: 'id',
-    as: 'artcleInfo',
-  });
+    foreignKey: "uid",
+    sourceKey: "id",
+    as: "artcleInfo",
+  })
 
   // 設定關聯
   ArticleModel.belongsTo(UserModel, {
-    foreignKey: 'uid',
-    targetKey: 'id',
-    as: 'userInfo',
+    foreignKey: "uid",
+    targetKey: "id",
+    as: "userInfo",
     constraints: false,
-  });
+  })
 
   // (async () => {
 
   // 建立資料表
-  const _syncSetting: SyncOptions = {alter: true};
-  await UserModel.sync(_syncSetting);
-  await ArticleModel.sync(_syncSetting);
+  const _syncSetting: SyncOptions = { alter: true }
+  await UserModel.sync(_syncSetting)
+  await ArticleModel.sync(_syncSetting)
 
   // 建立假資料
-  const _canRun = false;
+  const _canRun = false
   if (_canRun) {
     const _user = await UserModel.create({
-      name: 'jo',
-    });
+      name: "jo",
+    })
     /**const _user = */ await ArticleModel.create({
-      title: '標題',
-      content: '內容',
+      title: "標題",
+      content: "內容",
       uid: _user.id,
-    });
+    })
   }
 
   // })();
-};
+}
 
 // 数据库测试连接
 _sequelize
   .authenticate() // 連接資料庫
   .then(() => {
-    console.log('資料庫連接成功');
+    console.log("資料庫連接成功")
 
     _sequelize.sync({
       // force: false,
       alter: true, // 是否自动更新创建表
-    });
+    })
   })
   .catch((err: any) => {
-    console.log('資料庫連接失敗', err);
-  });
+    console.log("資料庫連接失敗", err)
+  })
 
 // 關聯
 // const {UserModel, ArticleModel} = db;
