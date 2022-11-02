@@ -8,4 +8,5 @@ const $ = new user_controller_1.default();
 module.exports = (Router) => {
     Router.post('/user/login', $.userLoginPost);
     Router.post('/user/del', $.userDelPost);
+    Router.post('/user/hello', $.userHelloPsost);
 };
