@@ -48,5 +48,12 @@ class UserController {
             };
         });
     }
+    userHelloPsost(ctx) {
+        return __awaiter(this, void 0, void 0, function* () {
+            ctx.result['data'] = {
+                msg: `Hello`
+            };
+        });
+    }
 }
 exports.default = UserController;

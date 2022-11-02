@@ -58,4 +58,13 @@ export default class UserController {
       msg: `成功刪除${_destroy}筆!`
     };
   }
+
+
+/** */
+  public async userHelloPsost(ctx: Context){
+    ctx.result['data'] = {
+      msg: `Hello`
+    };
+  }
+
 }

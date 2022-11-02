@@ -12,7 +12,8 @@
     "node"
   ],
   "scripts": {
-    "start": "node dist/app.js"
+    "start": "node dist/app.js",
+    "build": "rimraf dist && tsc"
   },
   "devDependencies": {
     "@types/glob": "^7.1.3",
