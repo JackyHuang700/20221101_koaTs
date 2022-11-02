@@ -22,22 +22,22 @@ let sequelize;
 const _sqlCon = 1;
 if (_sqlCon === 1) {
     sequelize = new sequelize_1.Sequelize("mysql://root:fFlsxFmxXzG0G66pN15A@containers-us-west-34.railway.app:7382/railway", {
-        protocol: 'tcp'
+        protocol: "tcp",
     });
 }
 else if (_sqlCon === 2)
     sequelize = new sequelize_1.Sequelize("mysql://root:root@localhost:3306/blog_dev");
 else if (_sqlCon === 3) {
-    sequelize = new sequelize_1.Sequelize('railway', 'uroot ', 'pfFlsxFmxXzG0G66pN15A ', {
-        host: 'containers-us-west-34.railway.app',
-        dialect: 'mysql',
+    sequelize = new sequelize_1.Sequelize("railway", "uroot ", "pfFlsxFmxXzG0G66pN15A ", {
+        host: "containers-us-west-34.railway.app",
+        dialect: "mysql",
         port: 7382,
-        protocol: 'TCP',
+        protocol: "TCP",
         pool: {
             max: 200,
             min: 0,
             idle: 10000,
-        }
+        },
     });
 }
 const initDB = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -125,16 +125,15 @@ const initDB = () => __awaiter(void 0, void 0, void 0, function* () {
             uid: _user.id,
         });
     }
+    try {
+        yield _sequelize.authenticate();
+        console.log("資料庫連接成功");
+        yield _sequelize.sync({
+            alter: true,
+        });
+    }
+    catch (err) {
+        console.log("資料庫連接失敗", err);
+    }
 });
 exports.initDB = initDB;
-_sequelize
-    .authenticate()
-    .then(() => {
-    console.log("資料庫連接成功");
-    _sequelize.sync({
-        alter: true,
-    });
-})
-    .catch((err) => {
-    console.log("資料庫連接失敗", err);
-});
