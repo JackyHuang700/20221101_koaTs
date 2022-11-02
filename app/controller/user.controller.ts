@@ -41,7 +41,12 @@ export default class UserController {
       },
     }); /**.then(msg => console.log('刪除完成! destroy done!', msg)); */
 
-    if (_destroy > 0) console.log('刪除完成! destroy done!');
+    if (_destroy > 0) {
+      console.log('刪除完成! destroy done!');
+      ctx.result['data'] = {
+        msg: `成功刪除${_destroy}筆!`
+      };
+    }
 
     // .then(user => {
     //   console.log('刪除使用者', user);
@@ -54,9 +59,7 @@ export default class UserController {
     //   _user.destroy();
     // }
 
-    ctx.result['data'] = {
-      msg: `成功刪除${_destroy}筆!`
-    };
+
   }
 
 
@@ -68,3 +71,15 @@ export default class UserController {
   }
 
 }
+
+
+
+// {
+//   "cache": false,
+//   "success": true,
+//   "duration": 0,
+//   "error": null,
+//   "data": {
+//       "msg": "Hello"
+//   }
+// }

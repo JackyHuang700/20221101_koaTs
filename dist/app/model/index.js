@@ -20,10 +20,26 @@ const config_1 = __importDefault(require("../config"));
 const _sequelize = new sequelize_1.Sequelize(config_1.default.db_common.dbname, config_1.default.db_common.username, config_1.default.db_common.password, Object.assign(Object.assign({ host: config_1.default.db_common.host, port: config_1.default.db_common.port, dialect: config_1.default.db_common.dialect, timezone: "+08:00", pool: config_1.default.db_common.pool, benchmark: config_1.default.db_common.benchmark }, (!config_1.default.db_common.logging && { logging: false })), { define: config_1.default.db_common.define }));
 let sequelize;
 const _sqlCon = 1;
-if (_sqlCon === 1)
-    sequelize = new sequelize_1.Sequelize("mysql://root:fFlsxFmxXzG0G66pN15A@containers-us-west-34.railway.app:7382/railway");
+if (_sqlCon === 1) {
+    sequelize = new sequelize_1.Sequelize("mysql://root:fFlsxFmxXzG0G66pN15A@containers-us-west-34.railway.app:7382/railway", {
+        protocol: 'tcp'
+    });
+}
 else if (_sqlCon === 2)
     sequelize = new sequelize_1.Sequelize("mysql://root:root@localhost:3306/blog_dev");
+else if (_sqlCon === 3) {
+    sequelize = new sequelize_1.Sequelize('railway', 'uroot ', 'pfFlsxFmxXzG0G66pN15A ', {
+        host: 'containers-us-west-34.railway.app',
+        dialect: 'mysql',
+        port: 7382,
+        protocol: 'TCP',
+        pool: {
+            max: 200,
+            min: 0,
+            idle: 10000,
+        }
+    });
+}
 const initDB = () => __awaiter(void 0, void 0, void 0, function* () {
     user_model_1.default.init({
         id: {

@@ -36,8 +36,7 @@ export default class ArticleController {
    */
   public async articleUpdatePatch(ctx: Context) {
     const {title = '', content = '', id = 0} = ctx.request.body;
-    if (!title || !content || !id)
-      throw new CustomError('缺少参数', {msg: 'title、uid、id或者content缺少'});
+    if (!title || !content || !id) throw new CustomError('缺少参数', {msg: 'title、uid、id或者content缺少'});
 
     const result = await ArticleModel.update(
       {
@@ -59,6 +58,7 @@ export default class ArticleController {
    * @apiVersion 1.0.0
    */
   public async articleDetailGet(ctx: Context) {
+    console.log('ctx: ', ctx.query);
     const {id = 0} = ctx.query;
     if (!id) throw new CustomError('缺少参数', {msg: 'id缺少'});
 

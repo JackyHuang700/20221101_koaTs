@@ -13,6 +13,7 @@ const koa2_cors_1 = __importDefault(require("koa2-cors"));
 const koa_bodyparser_1 = __importDefault(require("koa-bodyparser"));
 const auth_1 = __importDefault(require("./app/middleware/auth"));
 const routers_1 = __importDefault(require("./app/routers"));
+const index_1 = require("./app/model/index");
 const app = new koa_1.default();
 const router = new koa_router_1.default();
 app.use((0, koa2_cors_1.default)({
@@ -25,4 +26,5 @@ app.use((0, auth_1.default)());
 app.use(router.routes());
 app.listen(config_1.default.port, () => {
     console.log(`Server running on port ${config_1.default.port}`);
+    (0, index_1.initDB)();
 });

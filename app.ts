@@ -36,5 +36,5 @@ app.listen(config.port, (): void => {
   console.log(`Server running on port ${config.port}`);
 
   // 初始化 db
-  // initDB();
+  initDB();
 });

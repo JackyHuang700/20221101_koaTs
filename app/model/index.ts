@@ -25,8 +25,30 @@ const _sequelize: Sequelize = new Sequelize(config.db_common.dbname, config.db_c
 
 let sequelize: Sequelize
 const _sqlCon = 1
-if(_sqlCon === 1) sequelize = new Sequelize("mysql://root:fFlsxFmxXzG0G66pN15A@containers-us-west-34.railway.app:7382/railway")
+if(_sqlCon === 1) {
+
+  sequelize = new Sequelize("mysql://root:fFlsxFmxXzG0G66pN15A@containers-us-west-34.railway.app:7382/railway", {
+    protocol: 'tcp'
+  })
+}
 else if(_sqlCon === 2) sequelize = new Sequelize("mysql://root:root@localhost:3306/blog_dev")
+else if(_sqlCon === 3) {
+
+
+  sequelize = new Sequelize('railway', 'uroot ', 'pfFlsxFmxXzG0G66pN15A ', {
+    // host: 'localhost',
+    host: 'containers-us-west-34.railway.app',
+    dialect: 'mysql',
+    port: 7382,
+    // ssl: true,
+    protocol: 'TCP',
+    pool: {
+      max: 200,
+      min: 0,
+      idle: 10000,
+    }
+  })
+}
 
 
 // 模型加载

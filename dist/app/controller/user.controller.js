@@ -41,11 +41,12 @@ class UserController {
                     id: _id,
                 },
             });
-            if (_destroy > 0)
+            if (_destroy > 0) {
                 console.log('刪除完成! destroy done!');
-            ctx.result['data'] = {
-                msg: `成功刪除${_destroy}筆!`
-            };
+                ctx.result['data'] = {
+                    msg: `成功刪除${_destroy}筆!`
+                };
+            }
         });
     }
     userHelloPsost(ctx) {

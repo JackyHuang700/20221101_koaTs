@@ -48,6 +48,7 @@ class ArticleController {
     }
     articleDetailGet(ctx) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log('ctx: ', ctx.query);
             const { id = 0 } = ctx.query;
             if (!id)
                 throw new error_constructor_1.CustomError('缺少参数', { msg: 'id缺少' });
